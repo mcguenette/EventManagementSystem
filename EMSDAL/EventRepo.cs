@@ -66,11 +66,10 @@ namespace EMSDAL
                     int i = sqlCommand.ExecuteNonQuery();
                     conn.Close();
 
-                    return i > 0; // Return true if rows affected > 0, false otherwise
+                    return i > 0; 
                 }
                 catch (Exception ex)
                 {
-                    // Handle or log the exception
                     Console.WriteLine("Error: " + ex.Message);
                     return false;
                 }

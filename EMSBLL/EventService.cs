@@ -25,9 +25,7 @@ namespace EMSBLL
             }
             else
             {
-               
-                // Optionally handle the case where er is null
-                // You could log an error, throw an exception, or take other appropriate action
+
             }
 
             return events;

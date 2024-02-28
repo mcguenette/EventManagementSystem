@@ -19,7 +19,6 @@ namespace EventManagementSystem.Controllers
 
         public ActionResult Index()
         {
-            // Logic to fetch venues from the service layer
             var venues = vs.GetVenues();
             return View(venues);
         }
