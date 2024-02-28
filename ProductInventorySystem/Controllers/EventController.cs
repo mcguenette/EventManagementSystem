@@ -11,6 +11,7 @@ namespace EventManagementSystem.Controllers
     public class EventController : Controller
     {
         private EventService es;
+        private readonly VenueService vs = new VenueService();
 
         /// <summary>
         /// Constructor to initialize the EventService.
@@ -24,21 +25,40 @@ namespace EventManagementSystem.Controllers
         /// GET: Display a list of all events.
         /// </summary>
         /// <returns>List of events.</returns>
+        //public ActionResult Index()
+        //{
+        //    var events = es.GetEvents();
+        //    // Retrieve the list of events from the service
+        //    return View(events);
+        //}
         public ActionResult Index()
         {
-            var events = es.GetEvents();
-            // Retrieve the list of events from the service
-            return View(events);
+            try
+            {
+                var events = es.GetEvents();
+                return View(events);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while retrieving events. Please try again later.", ex);
+
+            }
         }
+
 
         /// <summary>
         /// GET: Display the form to create a new event.
         /// </summary>
         /// <returns>Form to create a new event.</returns>
-        public ActionResult CreateEvent()
+         public ActionResult CreateEvent()
         {
+            var venues = vs.GetVenues();
+            SelectList venueList = new SelectList(venues, "VenueID", "VenueName");
+            ViewBag.VenueList = venueList;
+
             return View();
         }
+
 
         /// <summary>
         /// POST: Create a new event.
@@ -51,12 +71,17 @@ namespace EventManagementSystem.Controllers
             if (es.AddEventService(@event))
             {
                 ViewBag.Message = "Event was added successfully";
-                return RedirectToAction("Index"); // Redirect to index page after successful addition
+                return RedirectToAction("Index");
             }
             else
             {
+                var venues = vs.GetVenues();
+                SelectList venueList = new SelectList(venues, "VenueID", "VenueName");
+
+                ViewBag.VenueList = venueList;
+
                 ViewBag.Message = "Failed to add event";
-                return View("CreateEvent"); // Return the same view with the form for re-submission
+                return View("CreateEvent", @event);
             }
         }
 
@@ -90,10 +115,7 @@ namespace EventManagementSystem.Controllers
         {
             try
             {
-                // Set the EventID of the event to match the ID from the URL
                 @event.EventID = eventID;
-
-                // Update the event using the service
                 es.UpdateEvent(@event);
                 ViewBag.Message = "Event was updated successfully";
                 return RedirectToAction("Index");
@@ -127,7 +149,7 @@ namespace EventManagementSystem.Controllers
         /// </summary>
         /// <param name="id">ID of the event to be deleted.</param>
         /// <returns>Redirects to the index page after successful deletion.</returns>
-        public ActionResult DeleteEvent(int eventID) // Changed names because it gave error,
+        public ActionResult DeleteEvent(int eventID) 
         {
 
             if (es.DeleteEventService(eventID))

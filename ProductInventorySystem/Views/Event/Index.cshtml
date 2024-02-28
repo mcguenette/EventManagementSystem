@@ -7,65 +7,57 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create Event", "CreateEvent")
+    @Html.ActionLink("Create New", "CreateEvent")
 </p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.VenueID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EventName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EventDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EventDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EventDuration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EventTicketPrice)
+        </th>
+        <th></th>
+    </tr>
 
-@if (Model != null && Model.Any())
-{
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().VenueID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().EventName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().EventDescription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().EventDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().EventDuration)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().EventTicketPrice)
-            </th>
-            <th></th>
-        </tr>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.VenueID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EventName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EventDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EventDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EventDuration)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EventTicketPrice)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditEvent", new { eventID=item.EventID }) |
+            @Html.ActionLink("Details", "Details", new { eventID = item.EventID }) |
+            @Html.ActionLink("Delete", "DeleteEvent", new { eventID = item.EventID })
+        </td>
+    </tr>
+}
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.VenueID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EventName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EventDescription)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EventDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EventDuration)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EventTicketPrice)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "EditEvent", new { eventID = item.EventID }) |
-                    @Html.ActionLink("Details", "Details", new { eventID = item.EventID }) |
-                    @Html.ActionLink("Delete", "DeleteEvent", new { eventID = item.EventID })
-                </td>
-            </tr>
-        }
-    </table>
-}
-else
-{
-    <p>No events listed.</p>
-}
+</table>

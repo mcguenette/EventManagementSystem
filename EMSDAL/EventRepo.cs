@@ -53,22 +53,25 @@ namespace EMSDAL
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 string eventDurationStr = @event.EventDuration.ToString(@"hh\:mm\:ss");
 
+                sqlCommand.Parameters.AddWithValue("@VenueID", @event.VenueID);
                 sqlCommand.Parameters.AddWithValue("@EventName", @event.EventName);
                 sqlCommand.Parameters.AddWithValue("@EventDescription", @event.EventDescription);
                 sqlCommand.Parameters.AddWithValue("@EventDate", @event.EventDate);
                 sqlCommand.Parameters.AddWithValue("@EventDuration", eventDurationStr);
                 sqlCommand.Parameters.AddWithValue("@EventTicketPrice", @event.EventTicketPrice);
 
-                conn.Open();
-                int i = sqlCommand.ExecuteNonQuery();
-                conn.Close();
+                try
+                {
+                    conn.Open();
+                    int i = sqlCommand.ExecuteNonQuery();
+                    conn.Close();
 
-                if (i > 0)
-                {
-                    return true;
+                    return i > 0; // Return true if rows affected > 0, false otherwise
                 }
-                else
+                catch (Exception ex)
                 {
+                    // Handle or log the exception
+                    Console.WriteLine("Error: " + ex.Message);
                     return false;
                 }
             }
@@ -128,5 +131,32 @@ namespace EMSDAL
                 }
             }
         }
+
+        //public List<Venue> GetVenues()
+        //{
+        //    List<Venue> venues = new List<Venue>();
+
+        //    using (SqlConnection conn = new SqlConnection(Connection.ConnectionString))
+        //    {
+        //        string commandText = "usp_GetVenues";
+        //        SqlCommand sqlCommand = new SqlCommand(commandText, conn);
+        //        conn.Open();
+        //        SqlDataReader reader = sqlCommand.ExecuteReader();
+
+        //        while (reader.Read())
+        //        {
+        //            Venue venue = new Venue
+        //            {
+        //                VenueID = Convert.ToInt32(reader["VenueID"]),
+        //                VenueName = Convert.ToString(reader["VenueName"]),
+        //                VenueLocation = Convert.ToString(reader["VenueLocation"])
+        //            };
+        //            venues.Add(venue);
+        //        }
+        //        reader.Close();
+        //    }
+
+        //    return venues;
+        //}
     }
 }

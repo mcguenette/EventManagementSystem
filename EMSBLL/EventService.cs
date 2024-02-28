@@ -13,7 +13,7 @@ namespace EMSBLL
         private EventRepo er;
         public EventService()
         {
-            er = new EventRepo(); // Initialize the EventRepo instance
+            er = new EventRepo();
         }
         public List<Event> GetEvents()
         {

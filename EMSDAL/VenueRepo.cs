@@ -20,11 +20,12 @@ namespace EMSDAL
         public VenueRepo()
         {
         }
+
         public List<Venue> GetVenues()
         {
             List<Venue> venues = new List<Venue>();
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(Connection.ConnectionString))
             {
                 string commandText = "usp_GetVenues";
                 SqlCommand sqlCommand = new SqlCommand(commandText, conn);
