@@ -185,6 +185,7 @@
     <Content Include="Views\Registration\Index.cshtml" />
     <Content Include="Views\Registration\CreateRegistration.cshtml" />
     <Content Include="Views\Event\Index.cshtml" />
+    <Content Include="Views\Event\EditEvent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

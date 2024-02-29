@@ -32,6 +32,8 @@ namespace EMSDAL
                         {
                             EventID = Convert.ToInt32(dr["EventID"]),
                             VenueID = Convert.ToInt32(dr["VenueID"]),
+                            // Update the property name from "VenueID" to "VenueName"
+                            VenueName = Convert.ToString(dr["VenueName"]),
                             EventName = Convert.ToString(dr["EventName"]),
                             EventDescription = Convert.ToString(dr["EventDescription"]),
                             EventDate = Convert.ToDateTime(dr["EventDate"]),

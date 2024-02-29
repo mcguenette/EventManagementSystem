@@ -93,38 +93,30 @@ namespace EventManagementSystem.Controllers
         /// <returns>Form to edit the event.</returns>
         public ActionResult EditEvent(int eventID)
         {
-            // Retrieve the event with the specified ID from the service
-            var @event = es.GetEvents().Find(x => x.EventID == eventID);
+            // Retrieve all events from the service
+            var events = es.GetEvents();
 
-            //if (@event == null)
-            //{
-            //    return HttpNotFound();
-            //}
+            // Find the event with the specified ID
+            var @event = events.FirstOrDefault(e => e.EventID == eventID);
+
+            // If event is null, handle the case when event with the specified ID is not found
+            if (@event == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Retrieve the list of venues from the service
+            var venues = vs.GetVenues();
+
+            // Create a SelectList for the venues
+            SelectList venueList = new SelectList(venues, "VenueID", "VenueName", @event.VenueID);
+
+            // Add the SelectList to ViewBag
+            ViewBag.VenueList = venueList;
 
             return View(@event);
         }
 
-        /// <summary>
-        /// POST: Update an existing event.
-        /// </summary>
-        /// <param name="id">ID of the event to be updated.</param>
-        /// <param name="event">Updated event object.</param>
-        /// <returns>Redirects to the index page after successful update.</returns>
-        [HttpPost]
-        public ActionResult EditEvent(int eventID, Event @event)
-        {
-            try
-            {
-                @event.EventID = eventID;
-                es.UpdateEventService(@event);
-                ViewBag.Message = "Event was updated successfully";
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View(@event);
-            }
-        }
 
         /// <summary>
         /// GET: Display the confirmation dialog to delete an event.

@@ -15,5 +15,6 @@ namespace EMSENTITIES
         public DateTime EventDate { get; set; }
         public TimeSpan EventDuration { get; set; }
         public float EventTicketPrice { get; set; }
+        public string VenueName { get; set; }
     }
 }
