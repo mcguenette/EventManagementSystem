@@ -40,7 +40,7 @@ namespace EventManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while retrieving events. Please try again later.", ex);
+                throw new Exception("An error occurred while retrieving events.", ex);
 
             }
         }
@@ -116,7 +116,7 @@ namespace EventManagementSystem.Controllers
             try
             {
                 @event.EventID = eventID;
-                es.UpdateEvent(@event);
+                es.UpdateEventService(@event);
                 ViewBag.Message = "Event was updated successfully";
                 return RedirectToAction("Index");
             }

@@ -130,32 +130,5 @@ namespace EMSDAL
                 }
             }
         }
-
-        //public List<Venue> GetVenues()
-        //{
-        //    List<Venue> venues = new List<Venue>();
-
-        //    using (SqlConnection conn = new SqlConnection(Connection.ConnectionString))
-        //    {
-        //        string commandText = "usp_GetVenues";
-        //        SqlCommand sqlCommand = new SqlCommand(commandText, conn);
-        //        conn.Open();
-        //        SqlDataReader reader = sqlCommand.ExecuteReader();
-
-        //        while (reader.Read())
-        //        {
-        //            Venue venue = new Venue
-        //            {
-        //                VenueID = Convert.ToInt32(reader["VenueID"]),
-        //                VenueName = Convert.ToString(reader["VenueName"]),
-        //                VenueLocation = Convert.ToString(reader["VenueLocation"])
-        //            };
-        //            venues.Add(venue);
-        //        }
-        //        reader.Close();
-        //    }
-
-        //    return venues;
-        //}
     }
 }

@@ -19,22 +19,22 @@ namespace EMSBLL
         {
             return rr.GetRegistrations();
         }
-        public Registration GetRegistrationById(int registrationID)
+        //public Registration GetRegistrationById(int registrationID)
+        //{
+        //    return rr.GetRegistrationById(registrationID);
+        //}
+
+        public bool AddRegistrationService(Registration registration)
         {
-            return rr.GetRegistrationById(registrationID);
+            return rr.AddRegistration(registration);
         }
 
-        public bool AddRegistration(Registration registration)
-        {
-            return rr.CreateRegistration(registration);
-        }
-
-        public bool UpdateRegistration(Registration registration)
+        public bool UpdateRegistrationService(Registration registration)
         {
             return rr.UpdateRegistration(registration);
         }
 
-        public bool DeleteRegistration(int registrationID)
+        public bool DeleteRegistrationService(int registrationID)
         {
             return rr.DeleteRegistration(registrationID);
         }

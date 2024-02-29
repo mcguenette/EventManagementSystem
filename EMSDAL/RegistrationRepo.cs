@@ -51,44 +51,44 @@ namespace EMSDAL
             return registrations;
         }
 
-        public Registration GetRegistrationById(int registrationID)
-        {
-            Registration registration = null;
+        //public Registration GetRegistrationById(int registrationID)
+        //{
+        //    Registration registration = null;
 
+        //    using (SqlConnection conn = new SqlConnection(connectionString))
+        //    {
+        //        string commandText = "usp_GetRegistrationById";
+        //        SqlCommand sqlCommand = new SqlCommand(commandText, conn);
+        //        sqlCommand.CommandType = CommandType.StoredProcedure;
+        //        sqlCommand.Parameters.AddWithValue("@RegistrationID", registrationID);
+
+        //        conn.Open();
+        //        SqlDataReader reader = sqlCommand.ExecuteReader();
+
+        //        if (reader.Read())
+        //        {
+        //            registration = new Registration
+        //            {
+        //                RegistrationID = Convert.ToInt32(reader["RegistrationID"]),
+        //                EventID = Convert.ToInt32(reader["EventID"]),
+        //                RegistrationName = reader["RegistrationName"].ToString(),
+        //                RegistrationEmail = reader["RegistrationEmail"].ToString(),
+        //                RegistrationDate = Convert.ToDateTime(reader["RegistrationDate"]),
+        //                RegistrationFee = Convert.ToSingle(reader["RegistrationFee"])
+        //            };
+        //        }
+
+        //        conn.Close();
+        //    }
+
+        //    return registration;
+        //}
+
+        public bool AddRegistration(Registration registration)
+        {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string commandText = "usp_GetRegistrationById";
-                SqlCommand sqlCommand = new SqlCommand(commandText, conn);
-                sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("@RegistrationID", registrationID);
-
-                conn.Open();
-                SqlDataReader reader = sqlCommand.ExecuteReader();
-
-                if (reader.Read())
-                {
-                    registration = new Registration
-                    {
-                        RegistrationID = Convert.ToInt32(reader["RegistrationID"]),
-                        EventID = Convert.ToInt32(reader["EventID"]),
-                        RegistrationName = reader["RegistrationName"].ToString(),
-                        RegistrationEmail = reader["RegistrationEmail"].ToString(),
-                        RegistrationDate = Convert.ToDateTime(reader["RegistrationDate"]),
-                        RegistrationFee = Convert.ToSingle(reader["RegistrationFee"])
-                    };
-                }
-
-                conn.Close();
-            }
-
-            return registration;
-        }
-
-        public bool CreateRegistration(Registration registration)
-        {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                string commandText = "usp_CreateRegistration";
+                string commandText = "usp_AddRegistration";
                 SqlCommand sqlCommand = new SqlCommand(commandText, conn);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
 
@@ -136,14 +136,20 @@ namespace EMSDAL
                 string commandText = "usp_DeleteRegistration";
                 SqlCommand sqlCommand = new SqlCommand(commandText, conn);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-
                 sqlCommand.Parameters.AddWithValue("@RegistrationID", registrationID);
 
                 conn.Open();
-                int rowsAffected = sqlCommand.ExecuteNonQuery();
+                int i = sqlCommand.ExecuteNonQuery();
                 conn.Close();
 
-                return rowsAffected > 0;
+                if (i > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
     }

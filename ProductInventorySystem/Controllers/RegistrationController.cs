@@ -11,82 +11,66 @@ namespace EventManagementSystem.Controllers
     public class RegistrationController : Controller
     {
         private RegistrationService rs;
+        private EventService es;
 
         public RegistrationController()
         {
             rs = new RegistrationService();
+            es = new EventService();
         }
 
-        // GET: Registration
-        public ActionResult Index()
+        public ActionResult Index() 
         {
-            List<Registration> registrations = rs.GetRegistrations();
-            return View(registrations);
+            try
+            {
+                var registrations = rs.GetRegistrations();
+                return View(registrations);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while retrieving registrations.", ex);
+
+            }
         }
 
-        // GET: Registration/Create
+        // GET: Display the form to create a new registration.
         public ActionResult CreateRegistration()
         {
+            var events = es.GetEvents();
+            SelectList eventList = new SelectList(events, "EventID", "EventName");
+            ViewBag.EventList = eventList;
+
             return View();
         }
 
-        // POST: Registration/Create
+        // POST: Create a new registration.
         [HttpPost]
         public ActionResult CreateRegistration(Registration registration)
         {
-            try
+            if(rs.AddRegistrationService(registration))
             {
-                rs.AddRegistration(registration);
+                ViewBag.Message = "Registration added successfully";
                 return RedirectToAction("Index");
             }
-            catch
+            else
             {
-                return View();
+                var events = es.GetEvents();
+                SelectList eventList = new SelectList(events, "EventID", "EventName");
+                ViewBag.EventList = eventList;
+
+                ViewBag.Message = "Failed to add registration";
+                return View("CreateRegistration", registration);
             }
         }
 
-        // GET: Registration/Edit/5
-        public ActionResult EditRegistration(int id)
+        public ActionResult DeleteRegistration(int registrationID)
         {
-            Registration registration = rs.GetRegistrationById(id);
-            return View(registration);
-        }
-
-        // POST: Registration/Edit/5
-        [HttpPost]
-        public ActionResult EditRegistration(int id, Registration registration)
-        {
-            try
+            if (rs.DeleteRegistrationService(registrationID))
             {
-                rs.UpdateRegistration(registration);
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Registration/Delete/5
-        public ActionResult DeleteRegistration(int id)
-        {
-            Registration registration = rs.GetRegistrationById(id);
-            return View(registration);
-        }
-
-        // POST: Registration/Delete/5
-        [HttpPost]
-        public ActionResult DeleteRegistration(int id, FormCollection collection)
-        {
-            try
-            {
-                rs.DeleteRegistration(id);
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return null;
         }
     }
+
 }

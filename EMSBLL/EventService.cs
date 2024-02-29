@@ -37,7 +37,7 @@ namespace EMSBLL
             return er.AddEvent(@event);
         }
 
-        public bool UpdateEvent(Event @event)
+        public bool UpdateEventService(Event @event)
         {
             return er.UpdateEvent(@event);
         }
