@@ -47,7 +47,7 @@
             @Html.DisplayFor(modelItem => item.RegistrationFee)
         </td>
         <td>
-            @Html.ActionLink("Edit", "EditRegistration", new {registrationID=item.RegistrationID }) |
+            @Html.ActionLink("Edit", "UpdateRegistration", new {registrationID=item.RegistrationID }) |
             @Html.ActionLink("Delete", "DeleteRegistration", new { registrationID=item.RegistrationID })
         </td>
     </tr>

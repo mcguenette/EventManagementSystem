@@ -68,7 +68,14 @@ namespace EMSDAL
                     int i = sqlCommand.ExecuteNonQuery();
                     conn.Close();
 
-                    return i > 0; 
+                    if (i > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -91,12 +98,13 @@ namespace EMSDAL
                 sqlCommand.Parameters.AddWithValue("@EventName", @event.EventName);
                 sqlCommand.Parameters.AddWithValue("@EventDescription", @event.EventDescription);
                 sqlCommand.Parameters.AddWithValue("@EventDate", @event.EventDate);
-                sqlCommand.Parameters.AddWithValue("@EventDuration", @event.EventDuration.ToString());
+                sqlCommand.Parameters.AddWithValue("@EventDuration", @event.EventDuration);
                 sqlCommand.Parameters.AddWithValue("@EventTicketPrice", @event.EventTicketPrice);
 
                 conn.Open();
                 int i = sqlCommand.ExecuteNonQuery();
                 conn.Close();
+
 
                 if (i > 0)
                 {
@@ -108,6 +116,7 @@ namespace EMSDAL
                 }
             }
         }
+
 
         public bool DeleteEvent(int eventID)
         {

@@ -28,12 +28,11 @@ namespace EventManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while retrieving registrations.", ex);
+                throw new Exception("An error occurred while retrieving registrations", ex);
 
             }
         }
 
-        // GET: Display the form to create a new registration.
         public ActionResult CreateRegistration()
         {
             var events = es.GetEvents();
@@ -61,6 +60,22 @@ namespace EventManagementSystem.Controllers
                 ViewBag.Message = "Failed to add registration";
                 return View("CreateRegistration", registration);
             }
+        }
+        public ActionResult UpdateRegistration(int registrationID)
+        {
+            var registrationList = rs.GetRegistrations();
+            var registrations = registrationList.FirstOrDefault(x => x.RegistrationID == registrationID);
+
+            if (registrations == null)
+            {
+                ViewBag.Message = "Registration not found.";
+                return View("UpdateRegistration", registrations);
+            }
+
+            var events = es.GetEvents();
+            SelectList eventList = new SelectList(events, "EventID", "EventName", registrations.EventID);
+            ViewBag.EventList = eventList;
+            return View(registrations);
         }
 
         public ActionResult DeleteRegistration(int registrationID)
